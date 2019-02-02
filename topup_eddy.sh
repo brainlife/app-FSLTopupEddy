@@ -38,6 +38,8 @@ fi
 
 ## determine number of dirs per dwi
 diff_num=`fslinfo ./diff/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
+rdif_num=`fslinfo ./rdif/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
+tot_num=$(expr ${diff_num} + ${rdif_num});
 
 for PHASE in $phase
 	do
@@ -142,6 +144,15 @@ else
 		-m;
 fi
 
+## merge both phase encoding directions
+if [ -f data.nii.gz ];
+then
+	echo "both phase encoding directions merged already. skipping"
+else
+	echo "merging phase encoding data"
+	fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
+fi
+
 ## Creating a index.txt file for eddy
 if [ -f index.txt ];
 then
@@ -149,6 +160,7 @@ then
 else
 	indx=""
 	for ((i=1; i<=${diff_num}; i+=1));do indx="${indx} 1";done
+	for ((i=${diff_num}; i<=${tot_num}; i+=1));do indx="${indx} 2";done
 	echo $indx > index.txt;
 fi
 
