@@ -153,14 +153,17 @@ else
 	fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
 fi
 
+paste ${bvec} ${rbvc} >> bvecs
+paste ${bval} ${rbvl} >> bvals
+
 ## Creating a index.txt file for eddy
 if [ -f index.txt ];
 then
 	echo "index.txt already exists. skipping"
 else
 	indx=""
-	for ((i=1; i<=${diff_num}; i+=1));do indx="${indx} 1";done
-	for ((i=${diff_num}; i<=${tot_num}; i+=1));do indx="${indx} 2";done
+	for ((i=0; i<${diff_num}; ++i));do indx="${indx} 1";done
+	for ((i=0; i<${diff_num}; ++i));do indx="${indx} 2";done
 	echo $indx > index.txt;
 fi
 
@@ -196,7 +199,7 @@ mv eddy_corrected_data.nii.gz dwi.nii.gz;
 mv eddy_corrected_data.eddy_rotated_bvecs dwi.bvecs;
 cp -v ${bval} dwi.bvals;
 mv eddy_corrected_brain_mask.nii.gz mask.nii.gz;
-rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz;
+rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz bvecs bvals;
 
 
 
