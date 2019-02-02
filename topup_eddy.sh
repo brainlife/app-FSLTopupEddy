@@ -124,19 +124,6 @@ else
 	      --iout=my_unwarped_images;
 fi
 
-## applying top-up
-if [ -f data.nii.gz ];
-then
-	echo "topup already completed. skipping"
-else
-	echo "apply topup"
-	applytopup --imain=./diff/dwi.nii.gz,./rdif/dwi.nii.gz \
-		   --datain=acq_params.txt \
-		   --inindex=1,2 \
-		   --topup=my_topup_results \
-		   --out=data;
-fi
-
 ## Averaging b0 images from topup
 if [ -f my_unwarped_images.nii.gz ];
 then
