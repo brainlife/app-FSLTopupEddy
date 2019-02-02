@@ -30,7 +30,7 @@ You can submit this App online at [https://doi.org/10.25663/bl.app.155](https://
 {
         "diff": "./input/dwi1/dwi.nii.gz",
         "bval": "./input/dwi1/dwi.bvals",
-        "bvec": "./input/dwi1/dwi.bvecs"
+        "bvec": "./input/dwi1/dwi.bvecs",
         "rdif": "./input/dwi2/dwi.nii.gz",
         "rbvc": "./input/dwi2/dwi.bvecs",
         "rbvl": "./input/dwi2/dwi.bvals",
