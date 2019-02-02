@@ -39,7 +39,6 @@ fi
 ## determine number of dirs per dwi
 diff_num=`fslinfo ./diff/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
 rdif_num=`fslinfo ./rdif/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
-tot_num=$(expr ${diff_num} + ${rdif_num});
 
 for PHASE in $phase
 	do
@@ -163,7 +162,7 @@ then
 else
 	indx=""
 	for ((i=0; i<${diff_num}; ++i));do indx="${indx} 1";done
-	for ((i=0; i<${diff_num}; ++i));do indx="${indx} 2";done
+	for ((i=0; i<${rdif_num}; ++i));do indx="${indx} 2";done
 	echo $indx > index.txt;
 fi
 
