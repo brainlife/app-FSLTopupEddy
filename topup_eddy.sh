@@ -176,8 +176,8 @@ else
 		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
-		--bvecs=${bvec} \
-		--bvals=${bval} \
+		--bvecs=bvecs \
+		--bvals=bvals \
 		--topup=my_topup_results \
 		--repol \
 		--out=eddy_corrected_data;
