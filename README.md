@@ -1,5 +1,5 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.155-blue.svg)](https://doi.org/10.25663/bl.app.155)
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.155-blue.svg)](https://doi.org/10.25663/brainlife.app.155)
 
 # app-FSLTopupEddy
 This app will correct for phase-encoding, eddy current, and motion artifacts in DWI images using FSL's Top-up and Eddy functions. Inputs are reverse-phase encoded DWI images (x2), and the outputs are a corrected DWI datatype and a brainmask datatype.
@@ -19,7 +19,7 @@ This app will correct for phase-encoding, eddy current, and motion artifacts in 
 
 ### On Brainlife.io
 
-You can submit this App online at [https://doi.org/10.25663/bl.app.155](https://doi.org/10.25663/bl.app.155) via the "Execute" tab.
+You can submit this App online at [https://doi.org/10.25663/brainlife.app.155](https://doi.org/10.25663/bl.app.155) via the "Execute" tab.
 
 ### Running Locally (on your machine)
 
