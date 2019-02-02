@@ -172,7 +172,7 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	eddy --imain=data \
+	eddy_openmp --imain=data \
 		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
