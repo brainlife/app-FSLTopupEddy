@@ -2,17 +2,14 @@
 
 ## This app will combine opposite-encoding direction DWI images and perform eddy and motion
 ## correction using FSL's topup and eddy_openmp commands.
-## Jesper L. R. Andersson, Mark S. Graham, Eniko Zsoldos and Stamatios N. Sotiropoulos.
-## Incorporating outlier detection and replacement into a non-parametric framework for movement 
+## Jesper L. R. Andersson, Mark S. Graham, Eniko Zsoldos and Stamatios N. Sotiropoulos. Incorporating outlier detection and replacement into a non-parametric framework for movement 
 ## and distortion correction of diffusion MR images. NeuroImage, 141:556-572, 2016.
-## Jesper L. R. Andersson and Stamatios N. Sotiropoulos. An integrated approach to correction for 
-## off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125:1063-1078, 
+## Jesper L. R. Andersson and Stamatios N. Sotiropoulos. An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125:1063-1078, 
 ## 2016.
-##  J.L.R. Andersson, S. Skare, J. Ashburner How to correct susceptibility distortions in spin-
-## echo echo-planar images: application to diffusion tensor imaging. NeuroImage, 20(2):870-888, 
+## J.L.R. Andersson, S. Skare, J. Ashburner How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. NeuroImage, 20(2):870-888, 
 ## 2003.
-## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. 
-## Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, ## N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image ## analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
+## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, 
+## N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
 
 ## File paths
 diff=`jq -r '.diff' config.json`;
