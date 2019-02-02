@@ -19,7 +19,7 @@ This app will correct for phase-encoding, eddy current, and motion artifacts in 
 
 ### On Brainlife.io
 
-You can submit this App online at [https://doi.org/10.25663/bl.app.155](https://doi.org/10.25663/bl.app.53) via the "Execute" tab.
+You can submit this App online at [https://doi.org/10.25663/bl.app.155](https://doi.org/10.25663/bl.app.155) via the "Execute" tab.
 
 ### Running Locally (on your machine)
 
