@@ -11,6 +11,10 @@
 ## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, 
 ## N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
 
+#cuda/nvidia drivers comes from the host. it needs to be mounted by singularity
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib/nvidia-410:$LD_LIBRARY_PATH
+
 ## File paths
 diff=`jq -r '.diff' config.json`;
 bvec=`jq -r '.bvec' config.json`;
