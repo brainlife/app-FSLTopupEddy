@@ -124,23 +124,23 @@ else
 fi
 
 ## Averaging b0 images from topup
-if [ -f my_unwarped_images.nii.gz ];
+if [ -f my_unwarped_images_avg.nii.gz ];
 then
 	echo "averaged b0 images from topup already exists. skipping"
 else
 	echo "averaging b0 images from topup"
 	fslmaths my_unwarped_images \
-		-Tmean my_unwarped_images;
+		-Tmean my_unwarped_images_avg;
 fi
 
 ## Brain extraction of b0 images from topup
-if [ -f my_unwarped_images_brain.nii.gz ];
+if [ -f my_unwarped_images_avg_brain.nii.gz ];
 then
 	echo "brain extracted b0 images from topup already exists. skipping"
 else
 	echo "creating brain extracted image from topup b0"
-	bet my_unwarped_images \
-		my_unwarped_images_brain \
+	bet my_unwarped_images_avg \
+		my_unwarped_images_avg_brain \
 		-m;
 fi
 
@@ -171,7 +171,7 @@ then
 else
 	echo "eddy"
 	eddy --imain=data \
-		--mask=my_unwarped_images_brain_mask \
+		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
 		--bvecs=${bvec} \
