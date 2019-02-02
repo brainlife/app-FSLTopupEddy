@@ -6,11 +6,11 @@
 
 time singularity exec -e docker://brainlife/fsl:5.0.9 ./topup_eddy.sh
 
-#if [ -s dwi.nii.gz ];
-#then
-#	echo 0 > finished
-#else
-#	echo "output missing"
-#	echo 1 > finished
-#	exit 1
-#fi
+if [ -s dwi.nii.gz ];
+then
+	echo 0 > finished
+else
+	echo "output missing"
+	echo 1 > finished
+	exit 1
+fi
