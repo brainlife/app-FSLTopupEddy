@@ -157,8 +157,8 @@ if [ -f eddy_corrected_data.nii.gz ];
 then
 	echo "eddy completed. skipping"
 else
-	echo "eddy openmp"
-	eddy_openmp --imain=data \
+	echo "eddy"
+	eddy --imain=data \
 		--mask=my_unwarped_images_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
