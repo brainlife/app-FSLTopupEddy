@@ -158,8 +158,21 @@ else
 	fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
 fi
 
-paste ${bvec} ${rbvc} >> bvecs
-paste ${bval} ${rbvl} >> bvals
+## merging bvecs
+if [ -f bvecs ];
+then
+	echo "bvecs merged. skipping"
+else
+	paste ${bvec} ${rbvc} >> bvecs
+fi
+
+## merging bvals
+if [ -f bvals ];
+then
+	echo "bvals merged. skipping"
+else
+	paste ${bval} ${rbvl} >> bvals
+fi
 
 ## Creating a index.txt file for eddy
 if [ -f index.txt ];
