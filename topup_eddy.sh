@@ -198,11 +198,11 @@ else
 		-m;
 fi
 
-#mv eddy_corrected_data.nii.gz dwi.nii.gz;
-#mv eddy_corrected_data.eddy_rotated_bvecs dwi.bvecs;
-#cp -v ${bval} dwi.bvals;
-#mv eddy_corrected_brain_mask.nii.gz mask.nii.gz;
-#rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz bvecs bvals;
+mv eddy_corrected_data.nii.gz dwi.nii.gz;
+mv eddy_corrected_data.eddy_rotated_bvecs dwi.bvecs;
+mv bvals dwi.bvals;
+mv eddy_corrected_brain_mask.nii.gz mask.nii.gz;
+rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz bvecs;
 
 
 
