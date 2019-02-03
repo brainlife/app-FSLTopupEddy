@@ -27,6 +27,8 @@ encode_dir=`jq -r '.encode' config.json`;
 phase="diff rdif"
 
 ## Create folder structures
+mkdir dwi;
+mkdir mask;
 mkdir diff rdif;
 if [ -f ./diff/dwi.nii.gz ];
 then
@@ -198,10 +200,10 @@ else
 		-m;
 fi
 
-mv eddy_corrected_data.nii.gz dwi.nii.gz;
-mv eddy_corrected_data.eddy_rotated_bvecs dwi.bvecs;
-mv bvals dwi.bvals;
-mv eddy_corrected_brain_mask.nii.gz mask.nii.gz;
+mv eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
+mv eddy_corrected_data.eddy_rotated_bvecs ./dwi/dwi.bvecs;
+mv bvals ./dwi/dwi.bvals;
+mv eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
 rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz bvecs;
 
 
