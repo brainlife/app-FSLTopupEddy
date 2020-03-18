@@ -4,7 +4,7 @@
 #PBS -l vmem=16gb
 #PBS -V
 
-module load cuda/8.0 #for bridges
+#module load cuda/8.0 #for bridges
 
 # needs mrtrix3 container for eddy_openmp
 time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
