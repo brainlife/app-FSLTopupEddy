@@ -17,7 +17,7 @@ set -x
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/lib/nvidia-410:$LD_LIBRARY_PATH
 
-ln -sf ${FSLDIR}/bin/eddy_cuda8.0 ${FSLDIR}/bin/eddy_cuda
+#ln -sf ${FSLDIR}/bin/eddy_cuda8.0 ${FSLDIR}/bin/eddy_cuda
 
 ## File paths
 diff=`jq -r '.diff' config.json`;
@@ -325,7 +325,7 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	eddy_cuda --imain=data \
+	eddy_cuda8.0 --imain=data \
 		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
