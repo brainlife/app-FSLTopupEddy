@@ -325,7 +325,7 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	eddy_cuda8.0 --imain=data \
+	${FSLDIR}/bin/eddy_cuda8.0 --imain=data \
 		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
 		--index=index.txt \
