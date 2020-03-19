@@ -9,7 +9,7 @@ module load cuda/8.0 #for bridges
 # needs mrtrix3 container for eddy_openmp
 #export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
 
-time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
+time singularity exec -e docker://brainlife/fsl:5.0.11 ./topup_eddy.sh
 
 #if [ -s ./dwi/dwi.nii.gz ];
 #then
