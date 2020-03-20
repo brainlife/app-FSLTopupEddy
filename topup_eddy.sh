@@ -375,11 +375,20 @@ else
 		-m;
 fi
 
-mv eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
-mv eddy_corrected_data.eddy_rotated_bvecs ./dwi/dwi.bvecs;
-mv bvals ./dwi/dwi.bvals;
-mv eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
-#rm -rf *eddy_corrected* index.txt *my_* *b0_images* acq_params.txt diff rdif data.nii.gz bvecs;
+# eddy qc
+if [ ! -d raw ]; then
+	eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m eddy_corrected_brain_mask -b bvals -g bvecs -o ./raw/ -f my_field.nii.gz
+fi
 
+# cleanup
+cp eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
+cp eddy_corrected_data.eddy_rotated_bvecs ./dwi/dwi.bvecs;
+cp bvals ./dwi/dwi.bvals;
+cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
 
-
+# mv everything else to raw
+mv *eddy_corrected* ./raw/
+mv index.txt ./raw/
+mv *my_* ./raw/
+mv *b0_images* ./raw/
+mv acq_params.txt ./raw/
