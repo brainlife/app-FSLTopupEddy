@@ -347,7 +347,7 @@ else
 		${dont_peas} \
 		${repol} \
 		--ol_nstd=${ol_nstd} \
-		--ol_nvox=${ol_vox} \
+		--ol_nvox=${ol_nvox} \
 		--ol_type=${ol_type} \
 		${ol_pos} \
 		${ol_sqr} \
