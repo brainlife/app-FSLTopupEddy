@@ -4,7 +4,7 @@
 #PBS -l vmem=16gb
 #PBS -V
 
-module load cuda/8.0 #for bridges
+#module load cuda/8.0 #for bridges
 
 # needs mrtrix3 container for eddy_openmp
 #export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
