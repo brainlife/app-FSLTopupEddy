@@ -360,7 +360,7 @@ else
 		${estimate_move_by_susceptibility} \
 		--mbs_niter=${mbs_niter} \
 		--mbs_lambda=${mbs_lambda} \
-		--mbs_ksp=${mbs_kps} \
+		--mbs_ksp=${mbs_ksp} \
 		${data_is_shelled};
 fi
 
