@@ -375,10 +375,10 @@ else
 		-m;
 fi
 
-# eddy qc
-if [ ! -d raw ]; then
-	eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m eddy_corrected_brain_mask -b bvals -g bvecs -o ./raw/ -f my_field.nii.gz
-fi
+# eddy qc - NEED TO FIX CURRENTLY
+#if [ ! -d raw ]; then
+#	eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m eddy_corrected_brain_mask -b bvals -g bvecs -o ./raw/ -f my_field.nii.gz
+#fi
 
 # cleanup
 cp eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
@@ -387,6 +387,7 @@ cp bvals ./dwi/dwi.bvals;
 cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
 
 # mv everything else to raw
+mkdir -p raw
 mv *eddy_corrected* ./raw/
 mv index.txt ./raw/
 mv *my_* ./raw/
