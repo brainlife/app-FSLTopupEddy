@@ -376,9 +376,9 @@ else
 fi
 
 # eddy qc - NEED TO FIX CURRENTLY
-#if [ ! -d raw ]; then
-#	eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m eddy_corrected_brain_mask -b bvals -g bvecs -o ./raw/ -f my_field.nii.gz
-#fi
+if [ ! -d raw ]; then
+	eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m eddy_corrected_brain_mask -b bvals -g bvecs -o ./raw/ -f my_field.nii.gz
+fi
 
 # cleanup
 cp eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
