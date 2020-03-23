@@ -11,11 +11,11 @@
 
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
 
-#if [ -s ./dwi/dwi.nii.gz ];
-#then
-#	echo 0 > finished
-#else
-#	echo "output missing"
-#	echo 1 > finished
-#	exit 1
-#fi
+if [ -s ./dwi/dwi.nii.gz ];
+then
+	echo 0 > finished
+else
+	echo "output missing"
+	echo 1 > finished
+	exit 1
+fi
