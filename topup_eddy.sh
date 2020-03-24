@@ -334,34 +334,42 @@ else
 		--bvals=bvals \
 		--topup=my_topup_results \
 		--out=eddy_corrected_data \
-		--flm=${flm} \
-		--slm=${slm} \
-		--fwhm=${eddy_fwhm} \
-		--niter=${eddy_niter} \
-		${fep} \
-		--interp=${eddy_interp} \
-		--resamp=${resamp} \
-		--nvoxhp=${nvoxhp} \
-		--ff=${ff} \
-		${dont_sep_offs_move} \
-		${dont_peas} \
-		${repol} \
-		--ol_nstd=${ol_nstd} \
-		--ol_nvox=${ol_nvox} \
-		--ol_type=${ol_type} \
-		${ol_pos} \
-		${ol_sqr} \
-		--mb=${mb} \
-		--mb_offs=${mb_offs} \
-		--mporder=${mporder} \
-		--s2v_niter=${s2v_niter} \
-		--s2v_lambda=${s2v_lambda} \
-		--s2v_interp=${s2v_interp} \
-		${estimate_move_by_susceptibility} \
-		--mbs_niter=${mbs_niter} \
-		--mbs_lambda=${mbs_lambda} \
-		--mbs_ksp=${mbs_ksp} \
-		${data_is_shelled};
+# 	/usr/local/bin/eddy_cuda --imain=data \
+# 		--mask=my_unwarped_images_avg_brain_mask \
+# 		--acqp=acq_params.txt \
+# 		--index=index.txt \
+# 		--bvecs=bvecs \
+# 		--bvals=bvals \
+# 		--topup=my_topup_results \
+# 		--out=eddy_corrected_data \
+# 		--flm=${flm} \
+# 		--slm=${slm} \
+# 		--fwhm=${eddy_fwhm} \
+# 		--niter=${eddy_niter} \
+# 		${fep} \
+# 		--interp=${eddy_interp} \
+# 		--resamp=${resamp} \
+# 		--nvoxhp=${nvoxhp} \
+# 		--ff=${ff} \
+# 		${dont_sep_offs_move} \
+# 		${dont_peas} \
+# 		${repol} \
+# 		--ol_nstd=${ol_nstd} \
+# 		--ol_nvox=${ol_nvox} \
+# 		--ol_type=${ol_type} \
+# 		${ol_pos} \
+# 		${ol_sqr} \
+# 		--mb=${mb} \
+# 		--mb_offs=${mb_offs} \
+# 		--mporder=${mporder} \
+# 		--s2v_niter=${s2v_niter} \
+# 		--s2v_lambda=${s2v_lambda} \
+# 		--s2v_interp=${s2v_interp} \
+# 		${estimate_move_by_susceptibility} \
+# 		--mbs_niter=${mbs_niter} \
+# 		--mbs_lambda=${mbs_lambda} \
+# 		--mbs_ksp=${mbs_ksp} \
+# 		${data_is_shelled};
 fi
 
 ## brain extraction on combined data image
