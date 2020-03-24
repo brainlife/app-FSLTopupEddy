@@ -271,54 +271,34 @@ else
 fi
 
 # parse parameters for eddy that are set as flags only
-if [[ ${fep} == true ]]; then
-	fep="--fep "
-else
-	fep=""
-fi
-
-if [[ ${repol} == true ]]; then
-	repol="--repol "
-else
-	repol=""
-fi
-
-if [[ ${dont_sep_offs_move} == true ]]; then
-	dont_sep_offs_move="--dont_sep_offs_mov"
-else
-	dont_sep_offs_move=""
-fi
-
-if [[ ${dont_peas} == true ]]; then
-	dont_peas="--dont_peas"
-else
-	dont_peas=""
-fi
-
-if [[ ${ol_pos} == true ]]; then
-	ol_pos="--ol_pos"
-else
-	ol_pos=""
-fi
-
-if [[ ${ol_sqr} == true ]]; then
-	ol_sqr="--ol_sqr"
-else
-	ol_sqr=""
-fi
-
-if [[ ${estimate_move_by_susceptibility} == true ]]; then
-	estimate_move_by_susceptibility="--estimate_move_by_susceptibility"
-else
-	estimate_move_by_susceptibility=""
-fi
-
-if [[ ${data_is_shelled} == true ]]; then
-	data_is_shelled="--data_is_shelled"
-else
-	data_is_shelled=""
-fi
-
+[ ${mb} -eq 1 ] && mb=""
+[ ${mb_offs} -eq 0 ] && mb_offs=""
+[[ ${flm} == "quadratic" ]] && flm=""
+[[ ${slm} == 1 ]] && slm=""
+[ ${eddy_fwhm} -eq 0 ] && eddy_fwhm=""
+[ ${eddy_niter} -eq 5 ] && eddy_niter=""
+[ ${eddy_interp} == "spline" ]] && eddy_interp=""
+[[ ${resamp} == "jac" ]] && mb=""
+[ ${nvoxhp} -eq 1000 ] && nvoxhp=""
+[ ${ff} -eq 10 ] && ff=""
+[ ${ol_nstd} -eq 4 ] && ol_nstd=""
+[ ${ol_nvox} -eq 250 ] && ol_nvox=""
+[[ ${ol_type} == "sw" ]] && ol_type=""
+[ ${mporder} -eq 0 ] && mporder=""
+[ ${s2v_niter} -eq 5 ] && s2v_niter=""
+[ ${s2v_lambda} -eq 1 ] && s2v_lambda=""
+[[ ${s2v_interp} == "trilinear" ]] && s2v_interp=""
+[ ${mbs_niter} -eq 10 ] && mbs_niter=""
+[ ${mbs_lambda} -eq 10 ] && mbs_lambda=""
+[ ${mbs_ksp} -eq 10 ] && mbs_ksp=""
+[[ ${fep} == true ]] && fep="--fep" || fep=""
+[[ ${repol} == true ]] && repol="--repol" || repol=""
+[[ ${dont_sep_offs_move} == true ]] && dont_sep_offs_move="--dont_sep_offs_mov" || dont_sep_offs_move=""
+[[ ${dont_peas} == true ]] && dont_peas="--dont_peas" || dont_peas=""
+[[ ${ol_pos} == true ]] && ol_pos="--ol_pos" || ol_pos=""
+[[ ${ol_sqr} == true ]] && ol_sqr="--ol_sqr" || ol_sqr=""
+[[ ${estimate_move_by_susceptibility} == true ]] && estimate_move_by_susceptibility="--estimate_move_by_susceptibility" || estimate_move_by_susceptibility=""
+[[ ${data_is_shelled} == true ]] && data_is_shelled="--data_is_shelled" || data_is_shelled=""
 
 ## Eddy correction
 if [ -f eddy_corrected_data.nii.gz ];
