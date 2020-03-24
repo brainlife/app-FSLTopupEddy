@@ -314,6 +314,7 @@ else
 		--bvals=bvals \
 		--topup=my_topup_results \
 		--out=eddy_corrected_data \
+		--cnr_maps \
 		${flm} \
 		${slm} \
 		${eddy_fwhm} \
