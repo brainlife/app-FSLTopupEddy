@@ -274,7 +274,7 @@ fi
 [ ${mb} -eq 1 ] && mb=""
 [ ${mb_offs} -eq 0 ] && mb_offs=""
 [[ ${flm} == "quadratic" ]] && flm=""
-[[ ${slm} == 1 ]] && slm=""
+[[ ${slm} == none ]] && slm=""
 [ ${eddy_fwhm} -eq 0 ] && eddy_fwhm=""
 [ ${eddy_niter} -eq 5 ] && eddy_niter=""
 [[ ${eddy_interp} == "spline" ]] && eddy_interp=""
