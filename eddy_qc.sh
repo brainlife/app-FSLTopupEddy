@@ -19,6 +19,10 @@ if [ -d raw ]; then
 	mv *my_* ./raw/
 	mv *b0_images* ./raw/
 	mv acq_params.txt ./raw/
+	mv diff ./raw/
+	mv rdif ./raw/
+	mv bvals ./raw/
+	mv bvecs ./raw/
 else
 	echo "failed"
 	exit 1
