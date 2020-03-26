@@ -76,6 +76,7 @@ mbs_lambda=`jq -r '.mbs_lambda' config.json`;
 mbs_ksp=`jq -r '.mbs_ksp' config.json`;
 dont_peas=`jq -r '.dont_peas' config.json`;
 data_is_shelled=`jq -r '.data_is_shelled' config.json`;
+slspec=`jq -r '.slspec' config.json`;
 
 # phase dirs
 phase="diff rdif"
@@ -271,6 +272,7 @@ else
 fi
 
 # parse parameters for eddy that are set as flags only
+[ -z "${slspec}" ] && echo "${slspec}" > slspec.txt && slspec="--slspec=slspec.txt" || slspec=""
 [ ${mb} -eq 1 ] && mb="" || mb="--mb=${mb}"
 [ ${mb_offs} -eq 0 ] && mb_offs="" || mb_offs="--mb_offs=${mb_offs}"
 [[ ${flm} == "quadratic" ]] && flm="" || flm="--flm=${flm}"
@@ -342,7 +344,8 @@ else
 		${mbs_niter} \
 		${mbs_lambda} \
 		${mbs_ksp} \
-		${data_is_shelled};
+		${data_is_shelled} \
+		${slspec};
 fi
 
 ## brain extraction on combined data image
