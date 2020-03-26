@@ -272,7 +272,7 @@ else
 fi
 
 # parse parameters for eddy that are set as flags only
-[ -z "${slspec}" ] && echo "${slspec}" > slspec.txt && slspec="--slspec=slspec.txt" || slspec=""
+[ ! -z "${slspec}" ] && echo "${slspec}" > slspec.txt && slspec="--slspec=slspec.txt" || slspec=""
 [ ${mb} -eq 1 ] && mb="" || mb="--mb=${mb}"
 [ ${mb_offs} -eq 0 ] && mb_offs="" || mb_offs="--mb_offs=${mb_offs}"
 [[ ${flm} == "quadratic" ]] && flm="" || flm="--flm=${flm}"
