@@ -289,7 +289,7 @@ else
 	then
 		echo "bvecs copied. skipping"
 	else
-		cp ${bvec} >> bvecs
+		cp ${bvec} bvecs
 	fi
 	
 	## merging bvals
@@ -297,7 +297,7 @@ else
 	then
 		echo "bvals copied. skipping"
 	else
-		cp ${bval} >> bvals
+		cp ${bval} bvals
 	fi
 	
 	## Creating a index.txt file for eddy
