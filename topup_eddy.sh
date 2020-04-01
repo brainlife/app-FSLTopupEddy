@@ -47,6 +47,7 @@ scale=`jq -r '.scale' config.json`;
 regrid=`jq -r '.regrid' config.json`;
 
 # eddy options
+merge_full=`jq -r '.mergefull' config.json`
 mb=`jq -r '.mb' config.json`;
 mb_offs=`jq -r '.mb_offs' config.json`;
 flm=`jq -r '.flm' config.json`;
@@ -235,40 +236,79 @@ else
 		-m;
 fi
 
-## merge both phase encoding directions
-if [ -f data.nii.gz ];
-then
-	echo "both phase encoding directions merged already. skipping"
+if [[ ${merge_full} == true ]]; then
+	echo "merging both phase encoding directions"
+	## merge both phase encoding directions
+	if [ -f data.nii.gz ];
+	then
+		echo "both phase encoding directions merged already. skipping"
+	else
+		echo "merging phase encoding data"
+		fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
+	fi
+	
+	## merging bvecs
+	if [ -f bvecs ];
+	then
+		echo "bvecs merged. skipping"
+	else
+		paste ${bvec} ${rbvc} >> bvecs
+	fi
+	
+	## merging bvals
+	if [ -f bvals ];
+	then
+		echo "bvals merged. skipping"
+	else
+		paste ${bval} ${rbvl} >> bvals
+	fi
+	
+	## Creating a index.txt file for eddy
+	if [ -f index.txt ];
+	then
+		echo "index.txt already exists. skipping"
+	else
+		indx=""
+		for ((i=0; i<${diff_num}; ++i));do indx="${indx} 1";done
+		for ((i=0; i<${rdif_num}; ++i));do indx="${indx} 2";done
+		echo $indx > index.txt;
+	fi
 else
-	echo "merging phase encoding data"
-	fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
-fi
-
-## merging bvecs
-if [ -f bvecs ];
-then
-	echo "bvecs merged. skipping"
-else
-	paste ${bvec} ${rbvc} >> bvecs
-fi
-
-## merging bvals
-if [ -f bvals ];
-then
-	echo "bvals merged. skipping"
-else
-	paste ${bval} ${rbvl} >> bvals
-fi
-
-## Creating a index.txt file for eddy
-if [ -f index.txt ];
-then
-	echo "index.txt already exists. skipping"
-else
-	indx=""
-	for ((i=0; i<${diff_num}; ++i));do indx="${indx} 1";done
-	for ((i=0; i<${rdif_num}; ++i));do indx="${indx} 2";done
-	echo $indx > index.txt;
+	echo "using first inputted dwi"
+	## use diff
+	if [ -f data.nii.gz ];
+	then
+		echo "both phase encoding directions merged already. skipping"
+	else
+		echo "merging phase encoding data"
+		cp ./diff/dwi.nii.gz data.nii.gz;
+	fi
+	
+	## merging bvecs
+	if [ -f bvecs ];
+	then
+		echo "bvecs copied. skipping"
+	else
+		cp ${bvec} >> bvecs
+	fi
+	
+	## merging bvals
+	if [ -f bvals ];
+	then
+		echo "bvals copied. skipping"
+	else
+		cp ${bval} >> bvals
+	fi
+	
+	## Creating a index.txt file for eddy
+	if [ -f index.txt ];
+	then
+		echo "index.txt already exists. skipping"
+	else
+		indx=""
+		for ((i=0; i<${diff_num}; ++i));do indx="${indx} 1";done
+		echo $indx > index.txt;
+	fi
 fi
 
 # parse parameters for eddy that are set as flags only
