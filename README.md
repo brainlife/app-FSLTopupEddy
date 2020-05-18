@@ -1,76 +1,92 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.155-blue.svg)](https://doi.org/10.25663/brainlife.app.155)
 
-# app-FSLTopupEddy
-This app will correct for phase-encoding, eddy current, and motion artifacts in DWI images using FSL's Top-up and Eddy functions. Inputs are reverse-phase encoded DWI images (x2), and the outputs are a corrected DWI datatype and a brainmask datatype.
+# FSL Top-up & Eddy 
 
-### Authors
-- Brad Caron (bacaron@iu.edu)
+This app will preprocess a DWI image using FSL's topup and eddy functions. This app takes in two sets of reverse phase encoding DWI datatypes as inputs and will output a motion and susceptibility corrected DWI datatype. 
 
-### Contributors
-- Soichi Hayashi (hayashi@iu.edu)
-- Franco Pestilli (franpest@indiana.edu)
-- Brent McPherson (bcmcpher@iu.edu)
+### Authors 
 
-### Funding
+- Brad Caron (bacaron@iu.edu) 
+
+### Contributors 
+
+- Soichi Hayashi (hayashis@iu.edu) 
+
+### Funding 
+
 [![NSF-BCS-1734853](https://img.shields.io/badge/NSF_BCS-1734853-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1734853)
 [![NSF-BCS-1636893](https://img.shields.io/badge/NSF_BCS-1636893-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1636893)
+[![NSF-ACI-1916518](https://img.shields.io/badge/NSF_ACI-1916518-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1916518)
+[![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1912270)
+[![NIH-NIBIB-R01EB029272](https://img.shields.io/badge/NIH_NIBIB-R01EB029272-green.svg)](https://grantome.com/grant/NIH/R01-EB029272-01)
+
+### Citations 
+
+Please cite the following articles when publishing papers that used data, code or other resources created by the brainlife.io community. 
+
+1. J.L.R. Andersson, S. Skare, J. Ashburner. How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. NeuroImage, 20(2):870-888, 2003.
+2. S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
+3. M.S. Graham, I. Drobnjak, H. Zhang. Quantitative assessment of the susceptibility artefact and its interaction with motion in diffusion MRI. PLoS ONE, 12(10), 2017.
+4. Jesper L. R. Andersson and Stamatios N. Sotiropoulos. An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125:1063-1078, 2016.
+5. Jesper L. R. Andersson, Mark S. Graham, Eniko Zsoldos and Stamatios N. Sotiropoulos. Incorporating outlier detection and replacement into a non-parametric framework for movement and distortion correction of diffusion MR images. NeuroImage, 141:556-572, 2016.
+6. Jesper L. R. Andersson, Mark S. Graham, Ivana Drobnjak, Hui Zhang, Nicola Filippini and Matteo Bastiani. Towards a comprehensive framework for movement and distortion correction of diffusion MR images: Within volume movement. NeuroImage, 152:450-466, 2017.
+7. Jesper L. R. Andersson, Mark S. Graham, Ivana Drobnjak, Hui Zhang and Jon Campbell. Susceptibility-induced distortion that varies due to motion: Correction in diffusion MR without acquiring additional data. NeuroImage, 171:277-295, 2018. 
 
 ## Running the App 
 
-### On Brainlife.io
+### On Brainlife.io 
 
-You can submit this App online at [https://doi.org/10.25663/brainlife.app.155](https://doi.org/10.25663/bl.app.155) via the "Execute" tab.
+You can submit this App online at [https://doi.org/10.25663/brainlife.app.155](https://doi.org/10.25663/brainlife.app.155) via the 'Execute' tab. 
 
-### Running Locally (on your machine)
+### Running Locally (on your machine) 
 
-1. git clone this repo.
-2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files.
+1. git clone this repo 
 
-```json
+2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files. 
+
+```json 
 {
-        "diff": "./input/dwi1/dwi.nii.gz",
-        "bval": "./input/dwi1/dwi.bvals",
-        "bvec": "./input/dwi1/dwi.bvecs",
-        "rdif": "./input/dwi2/dwi.nii.gz",
-        "rbvc": "./input/dwi2/dwi.bvecs",
-        "rbvl": "./input/dwi2/dwi.bvals",
-        "param":  0.00006999,
-        "encode": "PA"
-}
-```
+   "diff":    "testdata/diff/dwi.nii.gz",
+    "bval":    "testdata/diff/dwi.bvals",
+    "bvec":    "testdata/diff/dwi.bvecs",
+    "rdif":    "testdata/rdif/dwi.nii.gz",
+    "rbvl":    "testdata/rdif/dwi.bvals",
+    "rbvc":    "testdata/rdif/dwi.bvecs",
+    "param":    0.0267,
+    "encode":    "PA"
+} 
+``` 
 
-### Sample Datasets
+### Sample Datasets 
 
-You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli).
-
-```
-npm install -g brainlife
-bl login
-mkdir input
-bl dataset download 5b96bbf2059cf900271924f3 && mv 5b96bbf2059cf900271924f3 input/dwi1
-bl dataset download 5b96bbf2059cf900271924f3 && mv 5b96bbf2059cf900271924f3 input/dwi2
+You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli). 
 
 ```
+npm install -g brainlife 
+bl login 
+mkdir input 
+bl dataset download 
+``` 
 
+3. Launch the App by executing 'main' 
 
-3. Launch the App by executing `main`
+```bash 
+./main 
+``` 
 
-```bash
-./main
-```
+## Output 
 
-## Output
+The main output of this App is contains a DWI image and a computed brainmask of the DWI data. 
 
-The main output of this App is DWI datatype and a mask datatype.
+#### Product.json 
 
-#### Product.json
 The secondary output of this app is `product.json`. This file allows web interfaces, DB and API calls on the results of the processing. 
 
-### Dependencies
+### Dependencies 
 
-This App requires the following libraries when run locally.
+This App requires the following libraries when run locally. 
 
-  - singularity: https://singularity.lbl.gov/
-  - FSL: https://hub.docker.com/r/brainlife/fsl/tags/5.0.9
-  - jsonlab: https://github.com/fangq/jsonlab.git
+- FSL: 
+- jsonlab: 
+- singularity: 
