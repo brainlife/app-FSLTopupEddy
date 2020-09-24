@@ -105,9 +105,9 @@ rdif_num=`fslinfo ./rdif/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
 for PHASE in $phase
 	do
 		## Reorient2std
-		#fslreorient2std \
-		#	./${PHASE}/${PHASE}.nii.gz \
-		#	./${PHASE}/${PHASE}.nii.gz
+		fslreorient2std \
+			./${PHASE}/${PHASE}.nii.gz \
+			./${PHASE}/${PHASE}.nii.gz
 
 		## Create b0 image (nodif)
 		if [ -f ./${PHASE}/${PHASE}_nodif.nii.gz ];
