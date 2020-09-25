@@ -162,13 +162,13 @@ if [ -f acq_params.txt ];
 then
 	echo "acq_params.txt exists. skipping"
 else
-	if [ $encode_dir="PA" ];
+	if [[ $encode_dir == "PA" ]];
 	then
 		printf "0 1 0 ${param_num}\n0 -1 0 ${param_num}" > acq_params.txt;
-	elif [ $encode_dir="AP" ];
+	elif [[ $encode_dir == "AP" ]];
 	then
 		printf "0 -1 0 ${param_num}\n0 1 0 ${param_num}" > acq_params.txt
-	elif [ $encode_dir="LR" ];
+	elif [[ $encode_dir == "LR" ]];
 	then
 		printf "-1 0 0 ${paran_num}\n1 0 0 ${param_num}" > acq_params.txt
 	else
