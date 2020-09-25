@@ -9,6 +9,11 @@
 # needs mrtrix3 container for eddy_openmp
 #export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
 
+reslice=`jq -r '.reslice' config.json`
+if [[ ${reslice} == 'true' ]]; then
+	time singularity exec -e --nv docker://brainlife/freesurfer:6.0.0 ./reslice.sh
+fi
+
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
 
 time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy_qc.sh
