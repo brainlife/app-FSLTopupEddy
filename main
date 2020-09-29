@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -l nodes=1:ppn=8,walltime=16:00:00
+#PBS -l nodes=1:ppn=8,walltime=8:00:00
 #PBS -N topup_eddy
 #PBS -l vmem=16gb
 #PBS -V
