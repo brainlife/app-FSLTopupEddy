@@ -87,8 +87,7 @@ The secondary output of this app is `product.json`. This file allows web interfa
 ### Dependencies 
 
 This App requires the following libraries when run locally. 
-
-- FSL: 
-- jsonlab: 
-- singularity: 
+- FSL: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
+- jsonlab: https://github.com/fangq/jsonlab
+- singularity: https://singularity.lbl.gov/quickstart
 - CUDA 
