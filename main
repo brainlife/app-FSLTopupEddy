@@ -1,11 +1,11 @@
 #!/bin/bash
-#PBS -l nodes=1:ppn=8,walltime=16:00:00
-#PBS -N topup_eddy
+#PBS -l nodes=1:ppn=4,walltime=3:00:00
+#PBS -N eddy-correct
 #PBS -l vmem=16gb
 #PBS -V
 
 # needs mrtrix3 container for eddy_openmp
-time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
+time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./eddy-correct.sh
 
 if [ -s ./dwi/dwi.nii.gz ];
 then
