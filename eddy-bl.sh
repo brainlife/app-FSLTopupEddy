@@ -1,13 +1,19 @@
 #!/bin/bash
 
+set -e
+set -x
+
+echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
+[ -z "$OMP_NUM_THREADS" ] && export OMP_NUM_THREADS=8
+
 # inputs
 dwi=`jq -r '.dwi' config.json`
 bvals=`jq -r '.bvals' config.json`
 bvecs=`jq -r '.bvecs' config.json`
 
 # eddy options
-encode_dir=`jq -r '.encode_dir' config.json`
-param_num=`jq -r '.param_num' config.json`
+encode_dir=`jq -r '.encode' config.json`
+param_num=`jq -r '.param' config.json`
 mb=`jq -r '.mb' config.json`;
 mb_offs=`jq -r '.mb_offs' config.json`;
 flm=`jq -r '.flm' config.json`;
@@ -58,20 +64,22 @@ then
 else
 	if [[ $encode_dir == "PA" ]];
 	then
-		printf "0 1 0 ${param_num}\n0 -1 0 ${param_num}" > acq_params.txt;
+		printf "0 1 0 ${param_num}" > acq_params.txt;
 	elif [[ $encode_dir == "AP" ]];
 	then
-		printf "0 -1 0 ${param_num}\n0 1 0 ${param_num}" > acq_params.txt
+		printf "0 -1 0 ${param_num}" > acq_params.txt
 	elif [[ $encode_dir == "LR" ]];
 	then
-		printf "-1 0 0 ${paran_num}\n1 0 0 ${param_num}" > acq_params.txt
+		printf "-1 0 0 ${paran_num}" > acq_params.txt
 	else
-		printf "1 0 0 ${param_num}\n-1 0 0 ${param_num}" > acq_params.txt;
+		printf "1 0 0 ${param_num}" > acq_params.txt;
 	fi
 fi
 
 ## Creating a index.txt file for eddy
-diff_num=`fslinfo ${dwi} | sed -n 5p | awk '{ print $2 $4 }'`;
+diff_num=`fslinfo ${dwi} | sed -n 6p | awk '{ print $2 $4 }'`;
+#echo `fslinfo ${dwi} | sed -n 6p`
+echo ${diff_num}
 if [ -f index.txt ];
 then
 	echo "index.txt already exists. skipping"
@@ -120,12 +128,12 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	/usr/local/bin/eddy_cuda --imain=data \
-		--mask=./${PHASE}/${PHASE}_nodif_brain_mask \
+	eddy_openmp --imain=${dwi} \
+		--mask=nodif_brain_mask.nii.gz \
 		--index=index.txt \
 		--acqp=acq_params.txt \
-		--bvecs=bvecs \
-		--bvals=bvals \
+		--bvecs=${bvecs} \
+		--bvals=${bvals} \
 		--out=eddy_corrected_data \
 		--cnr_maps \
 		${flm} \
@@ -168,7 +176,7 @@ else
 	eddy_quad eddy_corrected_data \
 		-idx index.txt \
 		-par acq_params.txt \
-		-m ./${PHASE}/${PHASE}_nodif_brain_mask.nii.gz \
+		-m ./nodif_brain_mask.nii.gz \
 		-b ${bvals}
 fi
 
@@ -183,10 +191,10 @@ mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
 # final output check
 if [ ! -f output/dwi.nii.gz ]; then
 	echo "something went wrong. check derivatives and logs"
-	exit 1
+	#exit 1
 else
 	echo "eddy complete!"
-	exit 0
+	#exit 0
 fi
 
 

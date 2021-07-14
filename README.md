@@ -1,9 +1,10 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.155-blue.svg)](https://doi.org/10.25663/brainlife.app.155)
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.287-blue.svg)](https://doi.org/10.25663/brainlife.app.286)
 
-# FSL Top-up & Eddy 
+# FSL Top-up & Eddy - CUDA 
 
-This app will preprocess a DWI image using FSL's topup and eddy functions. This app takes in two sets of reverse phase encoding DWI datatypes as inputs and will output a motion and susceptibility corrected DWI datatype. 
+This app will preprocess a DWI image using FSL's topup and eddy functions. This app takes in two sets of reverse phase encoding DWI datatypes as inputs and will output a motion and susceptibility corrected DWI datatype.
+This app exposes all the possible flags for topup and eddy and runs via CUDA. Please view user guides provided by FSL for a description of these inputs. The user can also specify whether to merge both phase-encoding images or use the first inputted phase encoding image. 
 
 ### Authors 
 
@@ -37,7 +38,7 @@ Please cite the following articles when publishing papers that used data, code o
 
 ### On Brainlife.io 
 
-You can submit this App online at [https://doi.org/10.25663/brainlife.app.155](https://doi.org/10.25663/brainlife.app.155) via the 'Execute' tab. 
+You can submit this App online at [https://doi.org/10.25663/brainlife.app.286](https://doi.org/10.25663/brainlife.app.286) via the 'Execute' tab. 
 
 ### Running Locally (on your machine) 
 
@@ -86,7 +87,7 @@ The secondary output of this app is `product.json`. This file allows web interfa
 ### Dependencies 
 
 This App requires the following libraries when run locally. 
-
 - FSL: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
 - jsonlab: https://github.com/fangq/jsonlab
 - singularity: https://singularity.lbl.gov/quickstart
+- CUDA 
