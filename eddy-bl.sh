@@ -77,7 +77,7 @@ else
 fi
 
 ## Creating a index.txt file for eddy
-diff_num=`fslinfo ${dwi} | sed -n 6p | awk '{ print $2 $4 }'`;
+diff_num=`fslinfo ${dwi} | sed -n 5p | awk '{ print $2 $4 }'`;
 #echo `fslinfo ${dwi} | sed -n 6p`
 echo ${diff_num}
 if [ -f index.txt ];
