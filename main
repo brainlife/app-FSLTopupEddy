@@ -4,22 +4,8 @@
 #PBS -l vmem=16gb
 #PBS -V
 
-#module load cuda/8.0 #for bridges
 
 # needs mrtrix3 container for eddy_openmp
 export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
 
-#time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./eddy-bl.sh
-#time singularity exec -e docker://brainlife/fsl:5.0.11  ./brainmask.sh
 time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./eddy-bl.sh
-
-#time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy_qc.sh
-#
-#if [ -s ./dwi/dwi.nii.gz ];
-#then
-#	echo 0 > finished
-#else
-#	echo "output missing"
-#	echo 1 > finished
-#	exit 1
-#fi
