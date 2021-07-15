@@ -9,6 +9,8 @@ echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
 #export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64
+export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
+
 
 
 # inputs
@@ -125,8 +127,6 @@ echo "running eddy to correct for eddy and motion artifacts"
 [[ ${ol_sqr} == true ]] && ol_sqr="--ol_sqr" || ol_sqr=""
 [[ ${estimate_move_by_susceptibility} == true ]] && estimate_move_by_susceptibility="--estimate_move_by_susceptibility" || estimate_move_by_susceptibility=""
 [[ ${data_is_shelled} == true ]] && data_is_shelled="--data_is_shelled" || data_is_shelled=""
-
-export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64
 
 if [ -f eddy_corrected_data.nii.gz ];
 then
