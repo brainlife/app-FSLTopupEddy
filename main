@@ -9,4 +9,4 @@
 export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
 
 time singularity exec -e docker://brainlife/mrtrix3:3.0_RC3 ./eddy-bl.sh
-time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy-qc.sh
+time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy_qc.sh
