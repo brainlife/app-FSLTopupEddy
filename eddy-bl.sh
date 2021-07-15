@@ -165,13 +165,4 @@ else
 		${slspec};
 fi
 
-# final output check
-if [ ! -f output/dwi.nii.gz ]; then
-	echo "something went wrong. check derivatives and logs"
-	#exit 1
-else
-	echo "eddy complete!"
-	#exit 0
-fi
-
 
