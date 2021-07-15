@@ -126,7 +126,7 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	eddy_cuda --imain=${dwi} \
+	/usr/bin/local/eddy_cuda --imain=${dwi} \
 		--mask=nodif_brain_mask.nii.gz \
 		--index=index.txt \
 		--acqp=acq_params.txt \
