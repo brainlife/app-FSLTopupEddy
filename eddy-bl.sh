@@ -6,11 +6,11 @@ set -x
 #echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
 #[ -z "$OMP_NUM_THREADS" ] && export OMP_NUM_THREADS=8
 
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
 #export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64
 #export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
 
 
 
