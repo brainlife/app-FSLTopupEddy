@@ -6,6 +6,8 @@ set -x
 echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
 [ -z "$OMP_NUM_THREADS" ] && export OMP_NUM_THREADS=8
 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
+
 # inputs
 dwi=`jq -r '.dwi' config.json`
 bvals=`jq -r '.bvals' config.json`
