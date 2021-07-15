@@ -9,7 +9,7 @@
 # needs mrtrix3 container for eddy_openmp
 #export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
 #export SINGULARITYENV_CUDA91PATH=$CUDA91PATH
-export SINGULARITYENV_CUDA80PATH=$CUDA80PATH
+#export SINGULARITYENV_CUDA80PATH=$CUDA80PATH
 
 #time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./eddy-bl.sh
