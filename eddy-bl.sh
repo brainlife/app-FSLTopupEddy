@@ -180,7 +180,7 @@ fi
 
 ## move final outputs
 [ ! -f ./output/dwi.nii.gz ] && mv eddy_corrected_data.nii.gz ./output/dwi.nii.gz
-[ ! -f ./output/dwi.bvecs ] && mv eddy_corrected_data.rotated_bvecs ./output/dwi.bvecs
+[ ! -f ./output/dwi.bvecs ] && mv eddy_corrected_data.eddy_rotated_bvecs ./output/dwi.bvecs
 [ ! -f ./output/dwi.bvals ] && cp ${bvals} ./output/dwi.bvals
 mv index.txt acq_params.txt nodif* ./raw/
 mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
