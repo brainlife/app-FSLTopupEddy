@@ -60,10 +60,10 @@ slspec=`jq -r '.slspec' config.json`;
 
 ## generate brainmask
 # select b0 volumes and generate mean
-[ ! -f nodif.nii.gz ] && select_dwi_vols ${dwi} ${bvals} nodif 0 -m
-
-# create brainmask
-[ ! -f nodif_brain_mask.nii.gz ] && bet nodif.nii.gz nodif_brain -f 0.2 -g 0 -m
+#[ ! -f nodif.nii.gz ] && select_dwi_vols ${dwi} ${bvals} nodif 0 -m
+#
+## create brainmask
+#[ ! -f nodif_brain_mask.nii.gz ] && bet nodif.nii.gz nodif_brain -f 0.2 -g 0 -m
 
 ## create acq_params.txt
 if [ -f acq_params.txt ];
