@@ -166,17 +166,13 @@ else
 fi
 
 ## run eddy_quad
-if [ ! -d eddy_corrected_data.qc ];
-then
-	echo "eddy_quad completed. skipping"
-else
-	echo "eddy_quad"
-	eddy_quad eddy_corrected_data \
-		-idx index.txt \
-		-par acq_params.txt \
-		-m ./nodif_brain_mask.nii.gz \
-		-b ${bvals}
-fi
+echo "eddy_quad"
+eddy_quad eddy_corrected_data \
+	-idx index.txt \
+	-par acq_params.txt \
+	-m ./nodif_brain_mask.nii.gz \
+	-b ${bvals}
+
 
 ## move final outputs
 [ ! -f ./output/dwi.nii.gz ] && mv eddy_corrected_data.nii.gz ./output/dwi.nii.gz
