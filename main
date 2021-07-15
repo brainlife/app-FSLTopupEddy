@@ -12,7 +12,7 @@ export SINGULARITYENV_CUDA91PATH=$CUDA91PATH
 #export SINGULARITYENV_CUDA80PATH=$CUDA80PATH
 
 #time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
-time singularity exec -e --nv docker://brainlife/mrtrix3:2.0.2 ./eddy-bl.sh
+time singularity exec -e --nv docker://brainlife/mrtrix3:3.0.2 ./eddy-bl.sh
 #time singularity exec -e --nv docker://brainlife/fsl:6.0.4-patched ./eddy-bl.sh
 
 
