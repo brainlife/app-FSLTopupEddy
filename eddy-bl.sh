@@ -165,22 +165,6 @@ else
 		${slspec};
 fi
 
-## run eddy_quad
-echo "eddy_quad"
-eddy_quad eddy_corrected_data \
-	-idx index.txt \
-	-par acq_params.txt \
-	-m ./nodif_brain_mask.nii.gz \
-	-b ${bvals}
-
-
-## move final outputs
-[ ! -f ./output/dwi.nii.gz ] && mv eddy_corrected_data.nii.gz ./output/dwi.nii.gz
-[ ! -f ./output/dwi.bvecs ] && mv eddy_corrected_data.eddy_rotated_bvecs ./output/dwi.bvecs
-[ ! -f ./output/dwi.bvals ] && cp ${bvals} ./output/dwi.bvals
-mv index.txt acq_params.txt nodif* ./raw/
-mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
-
 # final output check
 if [ ! -f output/dwi.nii.gz ]; then
 	echo "something went wrong. check derivatives and logs"
