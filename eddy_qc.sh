@@ -8,10 +8,10 @@ eddy_quad eddy_corrected_data -idx index.txt -par acq_params.txt -m nodif_brain_
 
 if [ -d raw ]; then
 	# cleanup
-	cp eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz;
-	cp eddy_corrected_data.eddy_rotated_bvecs ./dwi/dwi.bvecs;
-	cp bvals ./dwi/dwi.bvals;
-	cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
+	cp eddy_corrected_data.nii.gz ./output/dwi.nii.gz;
+	cp eddy_corrected_data.eddy_rotated_bvecs ./output/dwi.bvecs;
+	cp ${bvals} ./output/dwi.bvals;
+	#cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
 	
 	# mv everything else to raw
 	mv *eddy_corrected* ./eddy_quad/
