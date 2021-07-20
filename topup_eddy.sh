@@ -189,6 +189,28 @@ else
 fi
 
 ## setting up top-up for susceptibility correction
+# create config file
+if [ -f topup_config.txt ]; then
+	echo "config file exists. skipping"
+else
+cat << EOF > topup_config.txt
+--warpres=${warpres}
+--subsamp=${subsamp}
+--fwhm=${fwhm}
+--miter=${miter}
+--lambda=${lambda}
+--ssqlambda=${ssqlambda}
+--regmod=${regmod}
+--estmov=${estmov}
+--minmet=${minmet}
+--splineorder=${splineorder}
+--numprec=${numprec}
+--interp=${interp}
+--scale=${scale}
+--regrid=${regrid}
+EOF
+fi
+
 if [ -f my_unwarped_images.nii.gz ];
 then
 	echo "unwarped images from topup exits. skipping"
@@ -199,20 +221,7 @@ else
 	      --out=my_topup_results \
 	      --fout=my_field \
 	      --iout=my_unwarped_images\
-	      --warpres=${warpres} \
-	      --subsamp=${subsamp} \
-	      --fwhm=${fwhm} \
-	      --miter=${miter} \
-	      --lambda=${lambda} \
-	      --ssqlambda=${ssqlambda} \
-	      --regmod=${regmod} \
-	      --estmov=${estmov} \
-	      --minmet=${minmet} \
-	      --splineorder=${splineorder} \
-	      --numprec=${numprec} \
-	      --interp=${interp} \
-	      --scale=${scale} \
-	      --regrid=${regrid};
+	      --config=topup_config.txt
 fi
 
 ## Averaging b0 images from topup
