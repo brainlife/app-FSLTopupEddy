@@ -174,7 +174,7 @@ else
 fi
 
 ## run eddy_quad
-if [ ! -d eddy_corrected_data.qc ];
+if [ -d eddy_corrected_data.qc ];
 then
 	echo "eddy_quad completed. skipping"
 else
