@@ -196,10 +196,10 @@ mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
 # final output check
 if [ ! -f output/dwi.nii.gz ]; then
 	echo "something went wrong. check derivatives and logs"
-	#exit 1
+	exit 1
 else
 	echo "eddy complete!"
-	#exit 0
+	exit 0
 fi
 
 
