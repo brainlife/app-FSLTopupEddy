@@ -3,16 +3,7 @@
 set -e
 set -x
 
-#echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
-#[ -z "$OMP_NUM_THREADS" ] && export OMP_NUM_THREADS=8
-
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
-#export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64
-#export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
-
-
 
 # inputs
 dwi=`jq -r '.dwi' config.json`
@@ -57,13 +48,6 @@ slspec=`jq -r '.slspec' config.json`;
 [ ! -d output ] && mkdir output
 [ ! -d raw ] && mkdir raw
 [ ! -d eddy_quad ] && mkdir eddy_quad
-
-## generate brainmask
-# select b0 volumes and generate mean
-#[ ! -f nodif.nii.gz ] && select_dwi_vols ${dwi} ${bvals} nodif 0 -m
-#
-## create brainmask
-#[ ! -f nodif_brain_mask.nii.gz ] && bet nodif.nii.gz nodif_brain -f 0.2 -g 0 -m
 
 ## create acq_params.txt
 if [ -f acq_params.txt ];
