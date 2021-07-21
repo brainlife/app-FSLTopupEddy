@@ -15,7 +15,8 @@ set -x
 
 #cuda/nvidia drivers comes from the host. it needs to be mounted by singularity
 #export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
 #export LD_LIBRARY_PATH=/usr/lib/nvidia-410:$LD_LIBRARY_PATH
 
 #ln -sf ${FSLDIR}/bin/eddy_cuda8.0 ${FSLDIR}/bin/eddy_cuda
