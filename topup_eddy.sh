@@ -13,13 +13,7 @@ set -x
 ## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, 
 ## N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
 
-#cuda/nvidia drivers comes from the host. it needs to be mounted by singularity
-#export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA91PATH/lib64
-#export LD_LIBRARY_PATH=/usr/lib/nvidia-410:$LD_LIBRARY_PATH
-
-#ln -sf ${FSLDIR}/bin/eddy_cuda8.0 ${FSLDIR}/bin/eddy_cuda
 
 ## File paths
 diff=`jq -r '.diff' config.json`;
@@ -83,80 +77,9 @@ slspec=`jq -r '.slspec' config.json`;
 # phase dirs
 phase="diff rdif"
 
-## Create folder structures
-# mkdir dwi;
-# mkdir mask;
-# mkdir diff rdif;
-# if [ -f ./diff/dwi.nii.gz ];
-# then
-# 	echo "file exists. skipping copying"
-# else
-# 	cp -v ${diff} ./diff/dwi.nii.gz;
-# 	cp -v ${bvec} ./diff/dwi.bvecs;
-# 	cp -v ${bval} ./diff/dwi.bvals;
-# 	cp -v ${rdif} ./rdif/dwi.nii.gz;
-# 	cp -v ${rbvc} ./rdif/dwi.bvecs;
-# 	cp -v ${rbvl} ./rdif/dwi.bvals;
-# fi
-
 ## determine number of dirs per dwi
 diff_num=`fslinfo ./diff/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
 rdif_num=`fslinfo ./rdif/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
-
-# for PHASE in $phase
-# 	do
-# 		## Reorient2std
-# 		#fslreorient2std \
-# 		#	./${PHASE}/${PHASE}.nii.gz \
-# 		#	./${PHASE}/${PHASE}.nii.gz
-
-# 		## Create b0 image (nodif)
-# 		if [ -f ./${PHASE}/${PHASE}_nodif.nii.gz ];
-# 		then
-# 			echo "b0 exists. skipping"
-# 		else
-# 			echo "creating b0 image for each encoding phase"
-# 			select_dwi_vols \
-# 				./${PHASE}/dwi.nii.gz \
-# 				./${PHASE}/dwi.bvals \
-# 				./${PHASE}/${PHASE}_nodif.nii.gz \
-# 				0;
-# 		fi
-
-# 		## Create mean b0 image
-# 		if [ -f ./${PHASE}/${PHASE}_nodif_mean.nii.gz ];
-# 		then
-# 			echo "mean b0 exists. skipping"
-# 		else
-# 			fslmaths ./${PHASE}/${PHASE}_nodif \
-# 				-Tmean ./${PHASE}/${PHASE}_nodif_mean;
-# 		fi
-
-# 		## Brain Extraction on mean b0 image
-# 		if [ -f ./${PHASE}/${PHASE}_nodif_brain.nii.gz ];
-# 		then
-# 			echo "b0 brain mask exists. skipping"
-# 		else
-# 			bet ./${PHASE}/${PHASE}_nodif_mean \
-# 				./${PHASE}/${PHASE}_nodif_brain \
-# 				-f 0.3 \
-# 				-g 0 \
-# 				-m;
-# 		fi
-# 	done
-
-
-# ## merging b0 images of each phase
-# if [ -f b0_images.nii.gz ];
-# then
-# 	echo "merged b0 exists. skipping"
-# else
-# 	echo "merging b0 images"
-# 	fslmerge -t \
-# 		b0_images \
-# 		./diff/diff_nodif_mean \
-# 		./rdif/rdif_nodif_mean;
-# fi
 
 ## Create acq_params.txt file for topup and eddy
 if [ -f acq_params.txt ];
@@ -358,7 +281,6 @@ then
 	echo "eddy completed. skipping"
 else
 	echo "eddy"
-	#/usr/local/bin/eddy_cuda --imain=data \
 	eddy_cuda9.1 --imain=data \
 		--mask=my_unwarped_images_avg_brain_mask \
 		--acqp=acq_params.txt \
@@ -410,9 +332,33 @@ else
 		-m;
 fi
 
-if [ -f eddy_corrected_data.nii.gz ]; then
-	echo "topup eddy complete"
+## run eddy_quad
+if [ -d eddy_corrected_data.qc ];
+then
+	echo "eddy_quad completed. skipping"
 else
-	echo "failed"
+	echo "eddy_quad"
+	eddy_quad eddy_corrected_data \
+		-idx index.txt \
+		-par acq_params.txt \
+		-m ./eddy_corrected_brain_mask.nii.gz \
+		-b bvals \
+		-f my_field.nii.gz
+fi
+
+## move final outputs
+[ ! -f ./output/dwi.nii.gz ] && mv eddy_corrected_data.nii.gz ./output/dwi.nii.gz
+[ ! -f ./output/dwi.bvecs ] && mv eddy_corrected_data.eddy_rotated_bvecs ./output/dwi.bvecs
+[ ! -f ./output/dwi.bvals ] && cp ${bvals} ./output/dwi.bvals
+[ ! -f ./mask/mask.nii.gz ] && mv eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz
+mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
+mv index.txt *my_* *b0_images* acq_params.txt diff rdif bvals bvecs ./raw/
+
+# final output check
+if [ ! -f output/dwi.nii.gz ]; then
+	echo "something went wrong. check derivatives and logs"
 	exit 1
+else
+	echo "eddy complete!"
+	exit 0
 fi

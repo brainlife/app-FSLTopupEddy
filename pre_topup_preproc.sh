@@ -12,9 +12,10 @@ rbvl=`jq -r '.rbvl' config.json`;
 phase="diff rdif"
 
 ## Create folder structures
-mkdir dwi;
+mkdir output;
 mkdir mask;
 mkdir diff rdif;
+mkdir eddy_quad raw;
 if [ -f ./diff/dwi.nii.gz ];
 then
 	echo "file exists. skipping copying"
