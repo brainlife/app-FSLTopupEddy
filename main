@@ -7,7 +7,11 @@
 #module load cuda/8.0 #for bridges
 
 # needs mrtrix3 container for eddy_openmp
-#export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
+# in case cuda version fails
+export SINGULARITYENV_OMP_NUM_THREADS=$OMP_NUM_THREADS
+
+# pass cuda91 path to singularity
+export SINGULARITYENV_CUDA91PATH=$CUDA91PATH
 
 #time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0.2 ./topup_eddy.sh
