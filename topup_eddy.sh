@@ -349,7 +349,7 @@ fi
 ## move final outputs
 [ ! -f ./output/dwi.nii.gz ] && mv eddy_corrected_data.nii.gz ./output/dwi.nii.gz
 [ ! -f ./output/dwi.bvecs ] && mv eddy_corrected_data.eddy_rotated_bvecs ./output/dwi.bvecs
-[ ! -f ./output/dwi.bvals ] && cp ${bvals} ./output/dwi.bvals
+[ ! -f ./output/dwi.bvals ] && cp bvals ./output/dwi.bvals
 [ ! -f ./mask/mask.nii.gz ] && mv eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz
 mv eddy_corrected_data.qc ./eddy_quad/qc && mv eddy_corrected_data.* ./eddy_quad
 mv index.txt *my_* *b0_images* acq_params.txt diff rdif bvals bvecs ./raw/
