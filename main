@@ -15,3 +15,4 @@ export SINGULARITYENV_CUDA91PATH=$CUDA91PATH
 
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./pre_topup_preproc.sh
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0.2 ./topup_eddy.sh
+time singularity exec -e docker://brainlife/freesurfer-stats:1.2 ./createRegressorsTSV.py
