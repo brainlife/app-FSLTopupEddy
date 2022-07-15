@@ -79,6 +79,9 @@ dont_peas=`jq -r '.dont_peas' config.json`;
 data_is_shelled=`jq -r '.data_is_shelled' config.json`;
 slspec=`jq -r '.slspec' config.json`;
 
+# reslice
+reslice=`jq -r '.reslice' config.json`
+
 # phase dirs
 phase="diff rdif"
 
@@ -86,16 +89,18 @@ phase="diff rdif"
 mkdir dwi;
 mkdir mask;
 mkdir diff rdif;
-if [ -f ./diff/dwi.nii.gz ];
-then
-	echo "file exists. skipping copying"
-else
-	cp -v ${diff} ./diff/dwi.nii.gz;
-	cp -v ${bvec} ./diff/dwi.bvecs;
-	cp -v ${bval} ./diff/dwi.bvals;
-	cp -v ${rdif} ./rdif/dwi.nii.gz;
-	cp -v ${rbvc} ./rdif/dwi.bvecs;
-	cp -v ${rbvl} ./rdif/dwi.bvals;
+if [[ ${reslice} == 'false' ]]; then
+	if [ -f ./diff/dwi.nii.gz ];
+	then
+		echo "file exists. skipping copying"
+	else
+		cp -v ${diff} ./diff/dwi.nii.gz;
+		cp -v ${bvec} ./diff/dwi.bvecs;
+		cp -v ${bval} ./diff/dwi.bvals;
+		cp -v ${rdif} ./rdif/dwi.nii.gz;
+		cp -v ${rbvc} ./rdif/dwi.bvecs;
+		cp -v ${rbvl} ./rdif/dwi.bvals;
+	fi
 fi
 
 ## determine number of dirs per dwi
@@ -162,13 +167,13 @@ if [ -f acq_params.txt ];
 then
 	echo "acq_params.txt exists. skipping"
 else
-	if [ $encode_dir="PA" ];
+	if [[ $encode_dir == "PA" ]];
 	then
 		printf "0 1 0 ${param_num}\n0 -1 0 ${param_num}" > acq_params.txt;
-	elif [ $encode_dir="AP" ];
+	elif [[ $encode_dir == "AP" ]];
 	then
 		printf "0 -1 0 ${param_num}\n0 1 0 ${param_num}" > acq_params.txt
-	elif [ $encode_dir="LR" ];
+	elif [[ $encode_dir == "LR" ]];
 	then
 		printf "-1 0 0 ${paran_num}\n1 0 0 ${param_num}" > acq_params.txt
 	else
