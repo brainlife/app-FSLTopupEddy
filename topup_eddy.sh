@@ -292,8 +292,7 @@ fi
 
 # correct bvectors
 echo "correcting bvectors"
-[ ! -f dwi/dwi.bvecs ] && fdt_rotate_bvecs bvecs ./dwi/dwi.bvecs dwi_ec.ecclog
-
+[ ! -f dwi/dwi.bvecs ] && fdt_rotate_bvecs bvecs ./dwi/dwi.bvecs eddy_corrected_data.ecclog
 
 ## brain extraction on combined data image
 if [ -f eddy_corrected_brain.nii.gz ];
