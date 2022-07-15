@@ -15,7 +15,7 @@ set -x
 
 #cuda/nvidia drivers comes from the host. it needs to be mounted by singularity
 #export LD_LIBRARY_PATH=/opt/packages/cuda/8.0/lib64:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/pylon5/tr4s8pp/shayashi/cuda-8.0/lib64:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=/usr/lib/nvidia-410:$LD_LIBRARY_PATH
 
 #ln -sf ${FSLDIR}/bin/eddy_cuda8.0 ${FSLDIR}/bin/eddy_cuda
@@ -309,7 +309,8 @@ if [ -f ./dwi/dwi.nii.gz ]; then
 	echo "topup eddy complete"
 	mv eddy_corrected_data.ecclog ./raw/
 	cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
-
+	cp bvals ./dwi/dwi.bvals
+	
 	# mv everything else to raw
 	mkdir -p raw
 	mv *eddy_corrected* ./raw/
