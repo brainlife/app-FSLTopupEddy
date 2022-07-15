@@ -4,13 +4,13 @@ set -x
 
 ## This app will combine opposite-encoding direction DWI images and perform eddy and motion
 ## correction using FSL's topup and eddy_openmp commands.
-## Jesper L. R. Andersson, Mark S. Graham, Eniko Zsoldos and Stamatios N. Sotiropoulos. Incorporating outlier detection and replacement into a non-parametric framework for movement 
+## Jesper L. R. Andersson, Mark S. Graham, Eniko Zsoldos and Stamatios N. Sotiropoulos. Incorporating outlier detection and replacement into a non-parametric framework for movement
 ## and distortion correction of diffusion MR images. NeuroImage, 141:556-572, 2016.
-## Jesper L. R. Andersson and Stamatios N. Sotiropoulos. An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125:1063-1078, 
+## Jesper L. R. Andersson and Stamatios N. Sotiropoulos. An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125:1063-1078,
 ## 2016.
-## J.L.R. Andersson, S. Skare, J. Ashburner How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. NeuroImage, 20(2):870-888, 
+## J.L.R. Andersson, S. Skare, J. Ashburner How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. NeuroImage, 20(2):870-888,
 ## 2003.
-## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang, 
+## S.M. Smith, M. Jenkinson, M.W. Woolrich, C.F. Beckmann, T.E.J. Behrens, H. Johansen-Berg, P.R. Bannister, M. De Luca, I. Drobnjak, D.E. Flitney, R. Niazy, J. Saunders, J. Vickers, Y. Zhang,
 ## N. De Stefano, J.M. Brady, and P.M. Matthews. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage, 23(S1):208-219, 2004.
 
 #cuda/nvidia drivers comes from the host. it needs to be mounted by singularity
@@ -47,37 +47,7 @@ scale=`jq -r '.scale' config.json`;
 regrid=`jq -r '.regrid' config.json`;
 
 # eddy options
-merge_full=`jq -r '.mergefull' config.json`
-mb=`jq -r '.mb' config.json`;
-mb_offs=`jq -r '.mb_offs' config.json`;
-flm=`jq -r '.flm' config.json`;
-slm=`jq -r '.slm' config.json`;
-eddy_fwhm=`jq -r '.eddy_fwhm' config.json`;
-eddy_niter=`jq -r '.eddy_niter' config.json`;
-fep=`jq -r '.fep' config.json`;
-eddy_interp=`jq -r '.eddy_interp' config.json`;
-eddy_resamp=`jq -r '.eddy_resamp' config.json`;
-nvoxhp=`jq -r '.nvoxhp' config.json`;
-initrand=`jq -r '.initrand' config.json`;
-ff=`jq -r '.ff' config.json`;
-repol=`jq -r '.repol' config.json`;
-resamp=`jq -r '.resamp' config.json`;
-ol_nstd=`jq -r '.ol_nstd' config.json`;
-ol_nvox=`jq -r '.ol_nvox' config.json`;
-ol_type=`jq -r '.ol_type' config.json`;
-ol_pos=`jq -r '.ol_pos' config.json`;
-ol_sq=`jq -r '.ol_sq' config.json`;
-mporder=`jq -r '.mporder' config.json`;
-s2v_niter=`jq -r '.s2v_niter' config.json`;
-s2v_lambda=`jq -r '.s2v_lambda' config.json`;
-s2v_interp=`jq -r '.s2v_interp' config.json`;
-estimate_move_by_susceptibility=`jq -r '.estimate_move_by_susceptibility' config.json`;
-mbs_niter=`jq -r '.mbs_iter' config.json`;
-mbs_lambda=`jq -r '.mbs_lambda' config.json`;
-mbs_ksp=`jq -r '.mbs_ksp' config.json`;
-dont_peas=`jq -r '.dont_peas' config.json`;
-data_is_shelled=`jq -r '.data_is_shelled' config.json`;
-slspec=`jq -r '.slspec' config.json`;
+refvol=`jq -r '.refvol' config.json`
 
 # reslice
 reslice=`jq -r '.reslice' config.json`
@@ -109,11 +79,6 @@ rdif_num=`fslinfo ./rdif/dwi.nii.gz | sed -n 5p | awk '{ print $2 $4 }'`;
 
 for PHASE in $phase
 	do
-		## Reorient2std
-		#fslreorient2std \
-		#	./${PHASE}/${PHASE}.nii.gz \
-		#	./${PHASE}/${PHASE}.nii.gz
-
 		## Create b0 image (nodif)
 		if [ -f ./${PHASE}/${PHASE}_nodif.nii.gz ];
 		then
@@ -251,7 +216,7 @@ if [[ ${merge_full} == true ]]; then
 		echo "merging phase encoding data"
 		fslmerge -t data.nii.gz ./diff/dwi.nii.gz ./rdif/dwi.nii.gz;
 	fi
-	
+
 	## merging bvecs
 	if [ -f bvecs ];
 	then
@@ -259,7 +224,7 @@ if [[ ${merge_full} == true ]]; then
 	else
 		paste ${bvec} ${rbvc} >> bvecs
 	fi
-	
+
 	## merging bvals
 	if [ -f bvals ];
 	then
@@ -267,7 +232,7 @@ if [[ ${merge_full} == true ]]; then
 	else
 		paste ${bval} ${rbvl} >> bvals
 	fi
-	
+
 	## Creating a index.txt file for eddy
 	if [ -f index.txt ];
 	then
@@ -288,7 +253,7 @@ else
 		echo "merging phase encoding data"
 		cp ./diff/dwi.nii.gz data.nii.gz;
 	fi
-	
+
 	## merging bvecs
 	if [ -f bvecs ];
 	then
@@ -296,7 +261,7 @@ else
 	else
 		cp ${bvec} bvecs
 	fi
-	
+
 	## merging bvals
 	if [ -f bvals ];
 	then
@@ -304,7 +269,7 @@ else
 	else
 		cp ${bval} bvals
 	fi
-	
+
 	## Creating a index.txt file for eddy
 	if [ -f index.txt ];
 	then
@@ -316,82 +281,19 @@ else
 	fi
 fi
 
-# parse parameters for eddy that are set as flags only
-[ ! -z "${slspec}" ] && echo "${slspec}" > slspec.txt && slspec="--slspec=slspec.txt" || slspec=""
-[ ${mb} -eq 1 ] && mb="" || mb="--mb=${mb}"
-[ ${mb_offs} -eq 0 ] && mb_offs="" || mb_offs="--mb_offs=${mb_offs}"
-[[ ${flm} == "quadratic" ]] && flm="" || flm="--flm=${flm}"
-[[ ${slm} == none ]] && slm="" || slm="--slm=${slm}"
-[ ${eddy_fwhm} -eq 0 ] && eddy_fwhm="" || eddy_fwhm="--fwhm=${eddy_fwhm}"
-[ ${eddy_niter} -eq 5 ] && eddy_niter="" || eddy_niter="--niter=${eddy_niter}"
-[[ ${eddy_interp} == "spline" ]] && eddy_interp="" || eddy_interp="--interp=${eddy_interp}"
-[[ ${resamp} == "jac" ]] && resamp="" || resamp="--resamp=${resamp}"
-[ ${nvoxhp} -eq 1000 ] && nvoxhp="" || nvoxhp="--nvoxhp=${nvoxhp}"
-[ ${ff} -eq 10 ] && ff="" || ff="--ff=${ff}"
-[ ${ol_nstd} -eq 4 ] && ol_nstd="" || ol_nstd="--ol_nstd=${ol_nstd}"
-[ ${ol_nvox} -eq 250 ] && ol_nvox="" || ol_nvox="--ol_nvox=${ol_nvox}"
-[[ ${ol_type} == "sw" ]] && ol_type="" || ol_type="--ol_type=${ol_type}"
-[ ${mporder} -eq 0 ] && mporder="" || mporder="--mporder=${mporder}"
-[ ${s2v_niter} -eq 5 ] && s2v_niter="" || s2v_niter="--s2v_niter=${s2v_niter}"
-[ ${s2v_lambda} -eq 1 ] && s2v_lambda="" || s2v_lambda="--s2v_lambda=${s2v_lambda}"
-[[ ${s2v_interp} == "trilinear" ]] && s2v_interp="" || s2v_interp="--s2v_interp=${s2v_interp}"
-[ ${mbs_niter} -eq 10 ] && mbs_niter="" || mbs_niter="--mbs_niter=${mbs_niter}"
-[ ${mbs_lambda} -eq 10 ] && mbs_lambda="" || mbs_lambda="--mbs_lambda=${mbs_lambda}"
-[ ${mbs_ksp} -eq 10 ] && mbs_ksp="" || mbs_ksp="--mbs_ksp=${mbs_ksp}"
-[[ ${fep} == true ]] && fep="--fep" || fep=""
-[[ ${repol} == true ]] && repol="--repol" || repol=""
-[[ ${dont_sep_offs_move} == true ]] && dont_sep_offs_move="--dont_sep_offs_mov" || dont_sep_offs_move=""
-[[ ${dont_peas} == true ]] && dont_peas="--dont_peas" || dont_peas=""
-[[ ${ol_pos} == true ]] && ol_pos="--ol_pos" || ol_pos=""
-[[ ${ol_sqr} == true ]] && ol_sqr="--ol_sqr" || ol_sqr=""
-[[ ${estimate_move_by_susceptibility} == true ]] && estimate_move_by_susceptibility="--estimate_move_by_susceptibility" || estimate_move_by_susceptibility=""
-[[ ${data_is_shelled} == true ]] && data_is_shelled="--data_is_shelled" || data_is_shelled=""
-
 ## Eddy correction
 if [ -f eddy_corrected_data.nii.gz ];
 then
 	echo "eddy completed. skipping"
 else
-	echo "eddy"
-	/usr/local/bin/eddy_cuda --imain=data \
-		--mask=my_unwarped_images_avg_brain_mask \
-		--acqp=acq_params.txt \
-		--index=index.txt \
-		--bvecs=bvecs \
-		--bvals=bvals \
-		--topup=my_topup_results \
-		--out=eddy_corrected_data \
-		--cnr_maps \
-		${flm} \
-		${slm} \
-		${eddy_fwhm} \
-		${eddy_niter} \
-		${fep} \
-		${eddy_interp} \
-		${resamp} \
-		${nvoxhp} \
-		${ff} \
-		${dont_sep_offs_move} \
-		${dont_peas} \
-		${repol} \
-		${ol_nstd} \
-		${ol_nvox} \
-		${ol_type} \
-		${ol_pos} \
-		${ol_sqr} \
-		${mb} \
-		${mb_offs} \
-		${mporder} \
-		${s2v_niter} \
-		${s2v_lambda} \
-		${s2v_interp} \
-		${estimate_move_by_susceptibility} \
-		${mbs_niter} \
-		${mbs_lambda} \
-		${mbs_ksp} \
-		${data_is_shelled} \
-		${slspec};
+	echo "eddy_correct"
+	eddy_correct data eddy_corrected_data ${refvol} && mv eddy_corrected_data.nii.gz ./dwi/dwi.nii.gz
 fi
+
+# correct bvectors
+echo "correcting bvectors"
+[ ! -f dwi/dwi.bvecs ] && fdt_rotate_bvecs bvecs ./dwi/dwi.bvecs dwi_ec.ecclog
+
 
 ## brain extraction on combined data image
 if [ -f eddy_corrected_brain.nii.gz ];
@@ -399,13 +301,27 @@ then
 	echo "brainmask from eddy_corrected data already exists. skipping"
 else
 	echo "generating brainmask from combined data"
-	bet eddy_corrected_data \
+	bet ./dwi/dwi.nii.gz \
 		eddy_corrected_brain \
 		-m;
 fi
 
-if [ -f eddy_corrected_data.nii.gz ]; then
+if [ -f ./dwi/dwi.nii.gz ]; then
 	echo "topup eddy complete"
+	mv eddy_corrected_data.ecclog ./raw/
+	cp eddy_corrected_brain_mask.nii.gz ./mask/mask.nii.gz;
+
+	# mv everything else to raw
+	mkdir -p raw
+	mv *eddy_corrected* ./raw/
+	mv index.txt ./raw/
+	mv *my_* ./raw/
+	mv *b0_images* ./raw/
+	mv acq_params.txt ./raw/
+	mv diff ./raw/
+	mv rdif ./raw/
+	mv bvals ./raw/
+	mv bvecs ./raw/
 else
 	echo "failed"
 	exit 1

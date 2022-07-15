@@ -20,7 +20,7 @@ fi
 
 time singularity exec -e --nv docker://brainlife/mrtrix3:3.0_RC3 ./topup_eddy.sh
 
-time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy_qc.sh
+# time singularity exec -e docker://brainlife/fsl:6.0.1 ./eddy_qc.sh
 
 if [ -s ./dwi/dwi.nii.gz ];
 then
