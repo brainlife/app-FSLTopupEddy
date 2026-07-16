@@ -1,23 +1,56 @@
-FROM brainlife/fsl:5.0.9 
+FROM ubuntu:22.04
 
-MAINTAINER Brad Caron <bacaron@iu.edu>
+LABEL maintainer="Gabriele Amorosino <g.amorosino@gmail.com>"
 
-RUN apt-get update 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV FSLDIR=/usr/local/fsl
+ENV PATH=${FSLDIR}/share/fsl/bin:${FSLDIR}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV FSLOUTPUTTYPE=NIFTI_GZ
+ENV FSLMULTIFILEQUIT=TRUE
+ENV FSLTCLSH=${FSLDIR}/bin/fsltclsh
+ENV FSLWISH=${FSLDIR}/bin/fslwish
+ENV FSLLOCKDIR=
+ENV FSLMACHINELIST=
+ENV FSLREMOTECALL=
+ENV LD_LIBRARY_PATH=${FSLDIR}/lib
+ENV SHELL=/bin/bash
 
-## run distributed script to set up fsl
-RUN . /etc/fsl/fsl.sh
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    bc \
+    bzip2 \
+    ca-certificates \
+    curl \
+    dc \
+    file \
+    libfontconfig1 \
+    libfreetype6 \
+    libgl1 \
+    libglu1-mesa \
+    libgomp1 \
+    libice6 \
+    libsm6 \
+    libx11-6 \
+    libxcursor1 \
+    libxext6 \
+    libxft2 \
+    libxinerama1 \
+    libxrandr2 \
+    libxrender1 \
+    libxt6 \
+    python3 \
+    sudo \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y fsl-first-data fsl-atlases 
+RUN curl -Ls https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/getfsl.sh -o /tmp/getfsl.sh && \
+    bash /tmp/getfsl.sh ${FSLDIR} -V 6.0.7.22 && \
+    rm -f /tmp/getfsl.sh
 
-## add better eddy functions
-RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/patches/eddy-patch-fsl-5.0.11/centos6/eddy_cuda8.0
-RUN mv eddy_cuda8.0 /usr/local/bin/eddy_cuda
-RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/patches/eddy-patch-fsl-5.0.11/centos6/eddy_openmp -P /usr/local/bin
-RUN chmod +x /usr/local/bin/eddy_cuda
-RUN chmod +x /usr/local/bin/eddy_openmp
+RUN echo ". ${FSLDIR}/etc/fslconf/fsl.sh" >> /etc/bash.bashrc
 
-#make it work under singularity 
 RUN ldconfig && mkdir -p /N/u /N/home /N/dc2 /N/soft /mnt/scratch
 
-#https://wiki.ubuntu.com/DashAsBinSh 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN rm -f /bin/sh && ln -s /bin/bash /bin/sh
+
+CMD ["/bin/bash"]
