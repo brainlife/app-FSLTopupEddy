@@ -9,7 +9,7 @@ This app will correct for phase-encoding, eddy current, and motion artifacts in 
 
 ### Contributors
 - Soichi Hayashi (hayashi@iu.edu)
-- Franco Pestilli (franpest@indiana.edu)
+- Franco Pestilli ([@francopestilli](https://github.com/francopestilli))
 - Brent McPherson (bcmcpher@iu.edu)
 
 ### Funding
