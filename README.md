@@ -3,6 +3,55 @@
 
 # FSL Top-up & Eddy - CUDA 
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+**Estimates the susceptibility field from reverse phase-encoded b0s with FSL topup and corrects eddy currents and motion with FSL eddy_correct, exposing topup's options.**
+
+Merges the mean b0 of each phase-encoding series, runs FSL topup with the chosen options, then runs eddy_correct on the DWI against refvol and rotates the bvecs; a brain mask is made with bet. Set reslice when the two series differ in slice count (FreeSurfer mri_vol2vol reslices rdiff to diff). Note: the topup field is estimated but not applied to the DWI by eddy_correct, and topup_eddy.sh tests a variable (merge_full) that is never read, so only the first DWI series is corrected.
+
+Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662)
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `diff` | `neuro/dwi` | yes | DWI acquired in the primary phase-encoding direction, with bvecs and bvals. |
+| `rdiff` | `neuro/dwi` | yes | DWI acquired with the reversed phase-encoding direction, with bvecs and bvals. Must have the same number of slices as diff unless reslice is set. |
+
+| Output | Datatype | Description |
+|---|---|---|
+| `dwi` | `neuro/dwi` | DWI after eddy_correct, with rotated bvecs and bvals. |
+| `mask` | `neuro/mask` | Brain mask of the corrected DWI (FSL bet). |
+| `raw` | `raw` | Derivatives: eddy_correct log, topup results and field, merged b0 images, index.txt and acq_params.txt. |
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `param` | number |  | This is the 'dwell time'. Please see https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/eddy/Faq#How_do_I_know_what_to_put_into_my_--acqp_file for more information about this specific parameter. |
+| `encode` | enum | `PA` | Phase encoding direction of the diff (not rdiff), i.e. first, inputted dwi. for example, if the phase encoding direction of the first inputted dwi is 'PA', then select 'PA'. If it was 'AP', then select 'AP' Options: `PA`, `AP`, `LR`, `RL`. |
+| `warpres` | string | `20,16,14,12,10,6,4,4,4` | topup: (approximate) resolution (in mm) of warp basis for the different sub-sampling levels |
+| `subsamp` | string | `2,2,2,2,2,1,1,1,1` | topup: sub-sampling scheme |
+| `fwhm` | string | `8,6,4,3,3,2,1,0,0` | topup: FWHM (in mm) of gaussian smoothing kernel |
+| `miter` | string | `5,5,5,5,5,10,10,20,20` | topup: number of iterations |
+| `lambda` | string | `0.005,0.001,0.0001,0.000015,0.000005,0.0000005,0.00000005,0.0000000005,0.00000000001` | topup: Weight of regularisation |
+| `ssqlambda` | string | `1` | topup: If set (=1), lambda is weighted by current ssq |
+| `regmod` | enum | `bending_energy` | topup: Model for regularisation of warp-field Options: `membrane_energy`, `bending_energy`. |
+| `estmov` | string | `1,1,1,1,1,0,0,0,0` | topup: Estimate movements if set |
+| `minmet` | string | `0,0,0,0,0,1,1,1,1` | topup: Minimisation method 0=Levenberg-Marquardt, 1=Scaled Conjugate Gradient |
+| `splineorder` | string | `3` | topup: Order of spline, 2->Qadratic spline, 3->Cubic spline |
+| `numprec` | enum | `double` | topup: Precision for representing Hessian, double or float Options: `double`, `float`. |
+| `interp` | enum | `spline` | topup: Image interpolation model, linear or spline Options: `linear`, `spline`. |
+| `scale` | boolean | `true` | topup: If set (=1), the images are individually scaled to a common mean |
+| `regrid` | boolean | `true` | topup: If set (=1), the calculations are done in a different grid |
+| `refvol` | string | `0` | Eddy-correct: reference volume to align everything to |
+| `mergefull` | boolean | `false` | Intended to merge both phase-encoding series before eddy_correct. Note: topup_eddy.sh tests a variable named merge_full that is never read from config.json, so only the first series (diff) is used in this branch. |
+| `reslice` | boolean | `false` | If, for wahtever reason, the two DWI images do not hae the same number of slices, set reslice to true and it will reslice the rdif image to diff |
+
+Runtime: container `brainlife/mrtrix3:3.0_RC3`; 8 CPUs; 3 h walltime; needs `FREESURFER_LICENSE`.
+
+Please cite:
+- Andersson JLR, Skare S, Ashburner J. How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. NeuroImage 20(2):870-888 (2003).
+- Smith SM, Jenkinson M, Woolrich MW, et al. Advances in functional and structural MR image analysis and implementation as FSL. NeuroImage 23(S1):208-219 (2004).
+
+<!-- brainlife-app:end -->
+
 This app will preprocess a DWI image using FSL's topup and eddy functions. This app takes in two sets of reverse phase encoding DWI datatypes as inputs and will output a motion and susceptibility corrected DWI datatype.
 This app exposes all the possible flags for topup and eddy and runs via CUDA. Please view user guides provided by FSL for a description of these inputs. The user can also specify whether to merge both phase-encoding images or use the first inputted phase encoding image. 
 
