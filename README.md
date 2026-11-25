@@ -10,9 +10,9 @@
   <a href="https://github.com/brainlife/app-FSLTopupEddy/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="MIT license"></a>
 </p>
 
-> 📍 **This branch, `topup-eddy_correct-v1.0`, is the brainlife.io App FSL Top-up & Eddy Correct** ([doi:10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662)). The other Apps in this repository are listed under **Versions on brainlife.io** below.
+> **This branch, `topup-eddy_correct-v1.0`, is the brainlife.io App FSL Top-up & Eddy Correct** ([doi:10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662)). The other Apps in this repository are listed under **Versions on brainlife.io** below.
 
-## 🧠 At a glance
+## At a glance
 
 <!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
 
@@ -22,21 +22,21 @@ Merges the mean b0 of each phase-encoding series, runs FSL topup with the chosen
 
 | | |
 |---|---|
-| 📥 **Inputs** | `neuro/dwi` ×2 |
-| 📤 **Outputs** | `neuro/dwi` · `neuro/mask` · `raw` |
-| 🐳 **Container** | `brainlife/mrtrix3:3.0_RC3` |
-| ⚙️ **Resources** | 8 CPUs · 3 h walltime |
-| 🔑 **Requires** | `FREESURFER_LICENSE` |
-| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662) |
+| **Inputs** | `neuro/dwi` ×2 |
+| **Outputs** | `neuro/dwi` · `neuro/mask` · `raw` |
+| **Container** | `brainlife/mrtrix3:3.0_RC3` |
+| **Resources** | 8 CPUs · 3 h walltime |
+| **Requires** | `FREESURFER_LICENSE` |
+| **Run it** | [doi.org/10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662) |
 
-#### 📥 Inputs
+#### Inputs
 
 | Input | Datatype | Required | Description |
 |---|---|---|---|
 | `diff` | `neuro/dwi` | yes | DWI acquired in the primary phase-encoding direction, with bvecs and bvals. |
 | `rdiff` | `neuro/dwi` | yes | DWI acquired with the reversed phase-encoding direction, with bvecs and bvals. Must have the same number of slices as diff unless reslice is set. |
 
-#### 📤 Outputs
+#### Outputs
 
 | Output | Datatype | Description |
 |---|---|---|
@@ -45,7 +45,7 @@ Merges the mean b0 of each phase-encoding series, runs FSL topup with the chosen
 | `raw` | `raw` | Derivatives: eddy_correct log, topup results and field, merged b0 images, index.txt and acq_params.txt. |
 
 <details>
-<summary><b>⚙️ Parameters</b> (19)</summary>
+<summary><b>Parameters</b> (19)</summary>
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -73,7 +73,7 @@ Merges the mean b0 of each phase-encoding series, runs FSL topup with the chosen
 
 <!-- brainlife-app:end -->
 
-## 🏷️ Versions on brainlife.io
+## Versions on brainlife.io
 
 This repository hosts five Apps, each built from its own branch. Pick the one that matches your data:
 
@@ -90,9 +90,9 @@ This repository hosts five Apps, each built from its own branch. Pick the one th
 - **FSL Eddy (OpenMP)** (`eddy-only-v1.0`) and **FSL Eddy (CUDA)** (`eddy-only-cuda-v1.0`): for a single phase-encoding DWI. They build a b0 brain mask, write `acq_params.txt` from `encode` and `param`, run `eddy_openmp` or `eddy_cuda9.1` with `--cnr_maps` and all of eddy's options exposed (multiband, outlier replacement, slice-to-volume and susceptibility-by-movement correction, …), then `eddy_quad` for QC. The CUDA App is much faster and is needed for slice-to-volume correction (`mporder` > 0); it needs a GPU node.
 - **FSL Eddy-correct** (`eddy-correct-v1.0`): FSL `eddy_correct` (affine registration to the `refvol` volume) and bvec rotation with `fdt_rotate_bvecs`. Use it for data that were already corrected with topup or cannot be; FSL eddy is the more complete alternative.
 
-## 🚀 Running the App
+## Running the App
 
-### ☁️ On brainlife.io
+### On brainlife.io
 
 Open the App at [doi.org/10.25663/brainlife.app.662](https://doi.org/10.25663/brainlife.app.662), or one of the other Apps above, and choose your `neuro/dwi` dataset(s): `diff`, the first DWI, and for the topup Apps `rdiff`, the DWI with the opposite phase encoding. Set:
 
@@ -101,7 +101,7 @@ Open the App at [doi.org/10.25663/brainlife.app.662](https://doi.org/10.25663/br
 
 The other options map directly onto those of FSL [topup](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/topup) and [eddy](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/eddy); see the FSL user guides for what they do. Press **Execute**. The corrected DWI is archived to your project as a `neuro/dwi` dataset, with a DWI brain mask (`neuro/mask`) for the topup Apps and QC and intermediate files as `raw` datasets.
 
-### 💻 Locally
+### Locally
 
 You need [Singularity/Apptainer](https://apptainer.org/) and [`jq`](https://jqlang.github.io/jq/). The Apps run in the `brainlife/mrtrix3:3.0_RC3` container (which provides FSL); the eddy-only OpenMP App also uses `brainlife/fsl:6.0.4-patched` for `eddy_quad`, the CUDA App needs an NVIDIA GPU, and `reslice` needs a [FreeSurfer license](https://surfer.nmr.mgh.harvard.edu/registration.html).
 
@@ -129,7 +129,7 @@ You need [Singularity/Apptainer](https://apptainer.org/) and [`jq`](https://jqla
    ./main
    ```
 
-## 📦 Outputs
+## Outputs
 
 ```text
 dwi/
@@ -143,13 +143,13 @@ raw/               intermediate files, eddy parameters and eddy_correct logs
 
 The eddy-only Apps write the corrected DWI under `output/` and the `eddy_quad` QC report as a separate output; the OpenMP App also writes a table of motion regressors.
 
-## 🩺 Troubleshooting
+## Troubleshooting
 
 - **`output missing`** or **`something went wrong. check derivatives and logs`**: the corrected DWI was not produced. Check the topup and eddy (or eddy_correct) output in the log, and confirm both DWI series have matching dimensions (or set `reslice`).
 - **`Please set FREESURFER_LICENSE in .bashrc`**: `reslice` is set and no FreeSurfer license is configured. Provide a license, or leave `reslice` off.
 - **CUDA App fails**: the job needs a node with a CUDA GPU.
 
-## 📚 Citing
+## Citing
 
 > [!TIP]
 > If you use this App in your work, please cite the App, the software it builds on and brainlife.io (below). GitHub's **Cite this repository** button gives the App citation in APA and BibTeX.
@@ -170,13 +170,13 @@ The eddy-only Apps write the corrected DWI under `output/` and the `eddy_quad` Q
 - Hayashi S, Caron BA, Heinsfeld AS, et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. *Nature Methods* 21:809–813 (2024). [doi:10.1038/s41592-024-02237-2](https://doi.org/10.1038/s41592-024-02237-2)
 - Avesani P, McPherson B, Hayashi S, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. *Scientific Data* 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
 
-## 👥 Authors
+## Authors
 
 - Brad Caron
 
 **Contributors:** Soichi Hayashi
 
-## 💰 Funding
+## Funding
 
 [![Wellcome-226486/Z/22/Z](https://img.shields.io/badge/Wellcome-226486%2FZ%2F22%2FZ-purple.svg)](https://wellcome.org/)
 [![NIH-NINDS-U24NS140384](https://img.shields.io/badge/NIH_NINDS-U24NS140384-green.svg)](https://reporter.nih.gov/project-details/11261037)
@@ -195,6 +195,6 @@ The eddy-only Apps write the corrected DWI under `output/` and the `eddy_quad` Q
 
 <sub>brainlife.io is publicly funded, and acknowledging that support helps keep it running. This App was developed with support from Wellcome, the U.S. National Institutes of Health (including the BRAIN Initiative BRAIN CONNECTS program: The Axonal Projectome EXchange, U24NS140384, and the Center for Mesoscale Connectomics, UM1NS132207) and the U.S. National Science Foundation.</sub>
 
-## ⚖️ License
+## License
 
 [MIT](https://github.com/brainlife/app-FSLTopupEddy/blob/1.1/LICENSE). FSL is distributed under its own [license](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence) (non-commercial use).
